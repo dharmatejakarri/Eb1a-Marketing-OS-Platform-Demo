@@ -1591,12 +1591,33 @@ textarea.input { line-height: 1.5; }
 </head>
 <body>
 <div id="root"></div>
+<div id="__loading" style="position:fixed;inset:0;background:#09090c;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px;">
+  <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#7c5cff,#2dd4bf);display:flex;align-items:center;justify-content:center;">
+    <div style="width:16px;height:16px;border-radius:3px;background:#09090c;"></div>
+  </div>
+  <div style="color:#9898a6;font-family:system-ui,sans-serif;font-size:13px;">Loading EB1A Marketing OS…</div>
+</div>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-
-<script type="text/babel">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script>
+// Compile and run all JSX after Babel is ready
+window.addEventListener('load', function() {
+  var allJSX = document.getElementById('__jsx_bundle').textContent;
+  try {
+    var compiled = Babel.transform(allJSX, { presets: ['react'] }).code;
+    var script = document.createElement('script');
+    script.textContent = compiled;
+    document.body.appendChild(script);
+    var loader = document.getElementById('__loading');
+    if (loader) loader.remove();
+  } catch(e) {
+    document.getElementById('__loading').innerHTML = '<div style="color:#f87171;font-family:monospace;padding:20px;max-width:600px;white-space:pre-wrap;">' + e.message + '</div>';
+  }
+});
+</script>
+<script id="__jsx_bundle" type="text/plain">
 
 // tweaks-panel.jsx
 // Reusable Tweaks shell + form-control helpers.
@@ -2017,9 +2038,7 @@ Object.assign(window, {
   TweakText, TweakNumber, TweakColor, TweakButton,
 });
 
-</script>
 
-<script type="text/babel">
 // Global Store — mutable state + actions with React hook subscription
 // Single source of truth for posts, filters, selection, toasts, modal, notifications.
 
@@ -2221,9 +2240,7 @@ Object.assign(window, {
   };
 })();
 
-</script>
 
-<script type="text/babel">
 // Icons — lucide-inspired, 16px grid, 1.5 stroke, currentColor
 // Small library of just what we need.
 
@@ -2344,9 +2361,7 @@ const Platforms = {
 
 Object.assign(window, { Icon, I, Platforms });
 
-</script>
 
-<script type="text/babel">
 // Shared data — personas, posts, competitors, etc.
 
 const BRAND = {
@@ -2637,9 +2652,7 @@ const AGENT_FEED = [
 
 Object.assign(window, { BRAND, ACCOUNTS, POST_DRAFTS, COMPETITORS, TRENDS, INFLUENCERS, COUNTRIES, SEO_INTEGRATIONS, SEO_KEYWORDS, EMAIL_REPORTS, SENT_EMAILS, SEO_ALERTS, AGENT_FEED });
 
-</script>
 
-<script type="text/babel">
 // Shell — topbar (search, bell, avatar all wired), sidenav, activity feed (filterable + 3-dot menu)
 
 const NAV = [
@@ -2996,9 +3009,7 @@ function ActivityFeed() {
 
 Object.assign(window, { TopBar, SideNav, ActivityFeed, NAV });
 
-</script>
 
-<script type="text/babel">
 // Command Center — main dashboard (hero screen)
 
 function Sparkline({ data, color = 'var(--accent)', height = 34, width = 80, filled = true }) {
@@ -3323,9 +3334,7 @@ function Dashboard({ onNavigate }) {
 
 Object.assign(window, { Dashboard, Sparkline, LineChart });
 
-</script>
 
-<script type="text/babel">
 // Content Queue — AI drafts pipeline with agent steps
 
 function AgentStep({ label, status, meta, icon }) {
@@ -3546,9 +3555,7 @@ function PostCard({ post, onClick }) {
 
 Object.assign(window, { ContentQueue, PostCard, StatusBadge, AgentStep });
 
-</script>
 
-<script type="text/babel">
 // Approval workflow — full preview with side-by-side platform mockups + approve/reject/revise
 
 function ApprovalWorkflow({ variant = 'sidebyside', onVariantChange }) {
@@ -3930,9 +3937,7 @@ function FacebookMock({ post }) {
 
 Object.assign(window, { ApprovalWorkflow });
 
-</script>
 
-<script type="text/babel">
 // Calendar, Trends, Influencers, Analytics, Daily Brief, Settings, Onboarding
 
 function Calendar() {
@@ -4626,9 +4631,7 @@ function ScoreBar({ label, value }) {
 
 Object.assign(window, { Calendar, Trends, Influencers });
 
-</script>
 
-<script type="text/babel">
 // Analytics, Daily Brief, Onboarding, Settings
 
 const ANALYTICS_DATA = {
@@ -5263,9 +5266,7 @@ function Settings() {
 
 Object.assign(window, { Analytics, DailyBrief, Onboarding, Settings });
 
-</script>
 
-<script type="text/babel">
 // Email Reports page + Integrations subsection
 
 function Reports({ onNavigate }) {
@@ -5656,9 +5657,7 @@ function SEOIntegrations({ onNavigate }) {
 
 Object.assign(window, { Reports, SEOIntegrations });
 
-</script>
 
-<script type="text/babel">
 // Engagement Hub — consolidated view of likes/comments/mentions/sentiment per post across platforms.
 
 const ENG_POSTS = [
@@ -6048,9 +6047,7 @@ function EngagementHub() {
 
 Object.assign(window, { EngagementHub });
 
-</script>
 
-<script type="text/babel">
 // Modals, Toasts, Command Palette overlay
 // Mounted once at App root level.
 
@@ -7033,9 +7030,7 @@ function IntegrationDetailModal({ onClose, integration }) {
 
 Object.assign(window, { Modal, Toasts, CommandPalette, ModalRoot, ComposeEmailModal, PreviewEmailModal, EditReportModal, AddIntegrationModal, IntegrationDetailModal });
 
-</script>
 
-<script type="text/babel">
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
